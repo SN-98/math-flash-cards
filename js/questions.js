@@ -44,6 +44,7 @@
         topic: "multiplication",
         subtopic: "forward",
         group: `table-${base}`,
+        base,
         q: `${base} × ${mul} = ?`,
         a: String(v),
       });
@@ -52,6 +53,7 @@
         topic: "multiplication",
         subtopic: "reverse",
         group: `table-${base}`,
+        base,
         q: `${v} is what multiple of ${base}?`,
         a: String(mul),
       });
@@ -77,17 +79,17 @@
     {
       id: "rule_tower",
       title: "Tower of exponents",
-      formula: "x^(aᵇ)  ≠  (xᵃ)ᵇ",
+      formula: "x^(2^3) = x^8",
       explanation:
-        "Without parentheses, exponents stack right-to-left — evaluate the topmost first.",
-      example: "x^(2³) = x⁸   ·   but (x²)³ = x⁶",
+        "In a tower without parentheses, evaluate the top exponent first. Here 2^3 = 8, so the whole expression becomes x^8.",
+      example: "x^(2^3) = x^8   (because 2^3 = 8)",
     },
     {
       id: "rule_negative",
       title: "Negative exponent",
-      formula: "x⁻ⁿ = 1 / xⁿ",
+      formula: "x^(-n) = 1 / x^n",
       explanation: "A negative exponent flips the base under 1.",
-      example: "2⁻³ = 1 / 2³ = 1/8",
+      example: "x^(-2) = 1 / x^2   ·   2^(-3) = 1/8",
     },
     {
       id: "rule_zero_exp",
@@ -132,6 +134,45 @@
     });
   }
 
+  // -------- Apply-the-rules quiz questions --------
+  // All have positive integer answers so the numeric keypad works on mobile.
+  function pushRule(id, q, a) {
+    qs.push({
+      id,
+      topic: "rules",
+      subtopic: "apply",
+      group: "rules-quiz",
+      q,
+      a: String(a),
+    });
+  }
+  // Product rule: 2^a · 2^b = 2^(a+b)
+  for (let a = 1; a <= 5; a++)
+    for (let b = 1; b <= 5; b++)
+      pushRule(`rq_prod_${a}_${b}`, `2^${a} · 2^${b} = 2^?`, a + b);
+  // Power of a power: (2^a)^b = 2^(a·b)
+  for (let a = 1; a <= 5; a++)
+    for (let b = 1; b <= 5; b++)
+      pushRule(`rq_pop_${a}_${b}`, `(2^${a})^${b} = 2^?`, a * b);
+  // Negative exponent: 2^(-n) = 1 / 2^n
+  for (let n = 1; n <= 6; n++)
+    pushRule(`rq_neg_${n}`, `2^(-${n}) = 1 / 2^?`, n);
+  // Zero exponent: x^0 = 1
+  for (const x of [3, 7, 12, 99, 100, 1024])
+    pushRule(`rq_zero_${x}`, `${x}^0 = ?`, 1);
+  // Base of 1: 1^n = 1
+  for (const n of [5, 10, 50, 99, 1000])
+    pushRule(`rq_one_${n}`, `1^${n} = ?`, 1);
+  // Base of 0: 0^n = 0 (n > 0)
+  for (const n of [3, 5, 10, 100])
+    pushRule(`rq_zb_${n}`, `0^${n} = ?`, 0);
+  // Tower: x^(a^b) = x^(a^b) — top first
+  for (const [a, b] of [[2, 2], [2, 3], [3, 2], [2, 4], [3, 3]])
+    pushRule(`rq_tower_${a}_${b}`, `x^(${a}^${b}) = x^?`, Math.pow(a, b));
+  // (-1)^even = 1
+  for (const n of [2, 4, 6, 8, 10, 100])
+    pushRule(`rq_negone_e_${n}`, `(-1)^${n} = ?`, 1);
+
   window.QUESTIONS = qs;
 
   // Quiz modes: declarative list. Add new entries here to expose new quizzes.
@@ -147,6 +188,13 @@
       filter: () => false,
       learnOnly: true,
       learnFilter: (q) => q.subtopic === "rule" && q.group === "exponent-rules",
+    },
+    {
+      id: "rules-apply",
+      section: "Exponent rules",
+      title: "Apply the rules",
+      desc: "Practice problems for product, power-of-a-power, negative, zero…",
+      filter: (q) => q.group === "rules-quiz",
     },
     {
       id: "mixed",
@@ -199,11 +247,11 @@
     },
   ];
 
-  // Per-base focused tables (2..20)
+  // Per-base focused tables (2..20) — fold under the Times tables section.
   for (let base = 2; base <= 20; base++) {
     window.QUIZ_MODES.push({
       id: `table-${base}`,
-      section: "Single table",
+      section: "Times tables",
       title: `× ${base} table`,
       desc: `Both directions for the ${base}-times table.`,
       filter: (q) => q.group === `table-${base}`,

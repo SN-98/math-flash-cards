@@ -26,6 +26,7 @@
   let homeTab = "quiz"; // "quiz" | "learn"
   let learnDeck = [];
   let learnIdx = 0;
+  let selectedTables = new Set();
 
   function refreshProgress() {
     if (!session) return;
@@ -42,6 +43,28 @@
         ? "Flip through facts at your own pace — no scoring."
         : "Type the answer; we'll re-quiz what you miss.";
     renderHome();
+  }
+
+  function renderTablePicker() {
+    const row = $("#table-chips");
+    row.innerHTML = "";
+    for (let b = 2; b <= 20; b++) {
+      const chip = document.createElement("button");
+      chip.type = "button";
+      chip.className = "chip" + (selectedTables.has(b) ? " selected" : "");
+      chip.textContent = `× ${b}`;
+      chip.onclick = () => {
+        if (selectedTables.has(b)) selectedTables.delete(b);
+        else selectedTables.add(b);
+        renderTablePicker();
+      };
+      row.appendChild(chip);
+    }
+    const n = selectedTables.size;
+    $("#picker-go").disabled = n === 0;
+    $("#picker-go").textContent = n
+      ? `Quiz ${n} table${n > 1 ? "s" : ""}`
+      : "Quiz selected";
   }
 
   function renderHome() {
@@ -95,6 +118,10 @@
     }
 
     const list = $("#mode-list");
+    // Detach the picker before clearing so we can re-insert it into the right section.
+    const picker = $("#custom-picker");
+    if (picker && picker.parentNode) picker.parentNode.removeChild(picker);
+
     list.innerHTML = "";
     for (const [sectionName, items] of Object.entries(sections)) {
       const h = document.createElement("div");
@@ -102,6 +129,11 @@
       h.textContent = sectionName;
       h.style.gridColumn = "1 / -1";
       list.appendChild(h);
+      // Slot the table picker right under the "Times tables" header in Quiz tab.
+      if (homeTab === "quiz" && sectionName === "Times tables" && picker) {
+        picker.style.gridColumn = "1 / -1";
+        list.appendChild(picker);
+      }
       for (const m of items) {
         const count = countForMode(m);
         const btn = document.createElement("button");
@@ -335,6 +367,31 @@
 
   $("#tab-quiz").addEventListener("click", () => setHomeTab("quiz"));
   $("#tab-learn").addEventListener("click", () => setHomeTab("learn"));
+
+  $("#picker-all").addEventListener("click", () => {
+    for (let b = 2; b <= 20; b++) selectedTables.add(b);
+    renderTablePicker();
+  });
+  $("#picker-clear").addEventListener("click", () => {
+    selectedTables.clear();
+    renderTablePicker();
+  });
+  $("#picker-go").addEventListener("click", () => {
+    if (selectedTables.size === 0) return;
+    const bases = new Set(selectedTables);
+    const list = [...bases].sort((a, b) => a - b);
+    startQuiz(
+      {
+        id: "custom-tables",
+        section: "Custom",
+        title: `Custom mix: × ${list.join(", × ")}`,
+        desc: "",
+        filter: (q) => q.topic === "multiplication" && bases.has(q.base),
+      },
+      {}
+    );
+  });
+  renderTablePicker();
 
   $("#answer-form").addEventListener("submit", (e) => {
     e.preventDefault();

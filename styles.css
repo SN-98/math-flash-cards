@@ -179,6 +179,88 @@ button:active { transform: translateY(1px); }
 }
 .tab:not(.active):hover { color: var(--accent-deep); }
 
+/* ---------- Custom table picker ---------- */
+.custom-picker {
+  background: var(--paper);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 18px 20px;
+  margin: 0;
+  position: relative;
+}
+.custom-picker::before {
+  content: "";
+  position: absolute;
+  inset: 6px;
+  border: 1px dashed rgba(168, 136, 88, 0.35);
+  border-radius: calc(var(--radius) - 6px);
+  pointer-events: none;
+}
+.picker-label {
+  font-family: "Fraunces", Georgia, serif;
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--accent-deep);
+  font-weight: 600;
+  margin-bottom: 12px;
+  position: relative;
+}
+.chip-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 14px;
+  position: relative;
+}
+.chip {
+  background: var(--paper-2);
+  border: 1px solid var(--border);
+  color: var(--ink);
+  padding: 7px 13px;
+  border-radius: 999px;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 600;
+  font-family: "Fraunces", Georgia, serif;
+  transition: background .12s, border-color .12s, color .12s, transform .06s;
+}
+.chip:hover { border-color: var(--accent); }
+.chip:active { transform: translateY(1px); }
+.chip.selected {
+  background: var(--sage);
+  color: #fbf3dd;
+  border-color: var(--sage-deep);
+  box-shadow: inset 0 -2px 0 var(--sage-deep);
+}
+.picker-actions {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  position: relative;
+}
+.picker-link {
+  background: transparent;
+  border: 1px solid var(--border-strong);
+  color: var(--muted);
+  font-size: 12px;
+  padding: 6px 12px;
+  font-weight: 600;
+}
+.picker-link:hover { color: var(--accent-deep); border-color: var(--accent); }
+.picker-go {
+  margin-left: auto;
+  width: auto;
+  padding: 9px 18px;
+  margin-top: 0;
+  font-size: 14px;
+}
+.picker-go:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+  background: var(--accent);
+}
+
 /* ---------- Mode list ---------- */
 .mode-list {
   display: grid;
