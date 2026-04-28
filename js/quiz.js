@@ -51,7 +51,7 @@ window.Quiz = (function () {
 
   // Build the deck for a chosen mode + optional review-only filter.
   function buildDeck(mode, progressMap, opts = {}) {
-    const all = window.QUESTIONS.filter(mode.filter);
+    const all = window.QUESTIONS.filter((q) => !q.learnOnly).filter(mode.filter);
     let pool = all;
     if (opts.reviewWrongOnly) {
       pool = all.filter((q) => {

@@ -83,8 +83,14 @@
       }
     }
 
+    // Filter modes by current tab, and drop empty ones so we don't show "0".
+    const visibleModes = modes.filter((m) => {
+      if (homeTab === "quiz" && m.learnOnly) return false;
+      return countForMode(m) > 0;
+    });
+
     const sections = {};
-    for (const m of modes) {
+    for (const m of visibleModes) {
       (sections[m.section] = sections[m.section] || []).push(m);
     }
 
@@ -115,14 +121,16 @@
   }
 
   function learnPool(mode) {
-    // Learn shows canonical facts only — forward direction, in natural order.
+    // Modes can override the Learn deck via learnFilter (e.g. rules).
+    // Default: canonical forward facts in natural order.
+    if (mode.learnFilter) return window.QUESTIONS.filter(mode.learnFilter);
     return window.QUESTIONS.filter(
-      (q) => mode.filter(q) && q.subtopic === "forward"
+      (q) => !q.learnOnly && mode.filter(q) && q.subtopic === "forward"
     );
   }
   function countForMode(m) {
     if (homeTab === "learn") return learnPool(m).length;
-    return window.QUESTIONS.filter(m.filter).length;
+    return window.QUESTIONS.filter((q) => !q.learnOnly).filter(m.filter).length;
   }
 
   function startLearn(mode) {
@@ -149,10 +157,22 @@
     const q = learnDeck[learnIdx];
     if (!q) return;
     $("#learn-topic").textContent = `${q.topic} · ${q.subtopic}`;
-    // Show as a fact rather than a question: "2^3 = 8" (strip trailing "= ?")
-    const stem = q.q.replace(/\s*=\s*\?\s*$/, "");
-    $("#learn-question").textContent = `${stem} =`;
-    $("#learn-answer").textContent = q.a;
+    const ans = $("#learn-answer");
+    if (q.subtopic === "rule") {
+      ans.classList.add("rule");
+      $("#learn-question").textContent = q.q;
+      ans.innerHTML = `
+        <div class="rule-formula">${q.a}</div>
+        ${q.explanation ? `<div class="rule-explanation">${q.explanation}</div>` : ""}
+        ${q.example ? `<div class="rule-example">e.g.  ${q.example}</div>` : ""}
+      `;
+    } else {
+      ans.classList.remove("rule");
+      // Show as a fact rather than a question: "2^3 = 8" (strip trailing "= ?")
+      const stem = q.q.replace(/\s*=\s*\?\s*$/, "");
+      $("#learn-question").textContent = `${stem} =`;
+      ans.textContent = q.a;
+    }
     $("#learn-progress").textContent = `${learnIdx + 1} / ${learnDeck.length}`;
   }
   function learnNext() {
