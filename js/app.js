@@ -200,9 +200,9 @@
       `;
     } else {
       ans.classList.remove("rule");
-      // Show as a fact rather than a question: "2^3 = 8" (strip trailing "= ?")
-      const stem = q.q.replace(/\s*=\s*\?\s*$/, "");
-      $("#learn-question").textContent = `${stem} =`;
+      // Show as a fact rather than a question: "2³ = 8" (strip trailing "= ?")
+      const stem = q.q.replace(/\s*=\s*(<sup>\?<\/sup>|\?)\s*$/, "");
+      $("#learn-question").innerHTML = `${stem} =`;
       ans.textContent = q.a;
     }
     $("#learn-progress").textContent = `${learnIdx + 1} / ${learnDeck.length}`;
@@ -250,7 +250,7 @@
     if (idx >= deck.length) return finishSession();
     const q = deck[idx];
     $("#quiz-topic").textContent = `${q.topic} · ${q.subtopic}`;
-    $("#quiz-question").textContent = q.q;
+    $("#quiz-question").innerHTML = q.q;
     $("#answer-input").value = "";
     $("#answer-input").focus();
     $("#feedback").hidden = true;
