@@ -251,6 +251,12 @@
     const q = deck[idx];
     $("#quiz-topic").textContent = `${q.topic} · ${q.subtopic}`;
     $("#quiz-question").innerHTML = q.q;
+    // Switch keyboard mode: if the answer (or its accepted variants) contains
+    // anything other than digits/dot/dash, the user needs an alphanumeric
+    // keyboard on mobile. Pure-numeric answers stay on the numeric keypad.
+    const allAnswers = [q.a, ...(q.accept || [])].join("");
+    const answerNeedsText = /[^0-9.\-,\s]/.test(allAnswers);
+    $("#answer-input").setAttribute("inputmode", answerNeedsText ? "text" : "numeric");
     $("#answer-input").value = "";
     $("#answer-input").focus();
     $("#feedback").hidden = true;

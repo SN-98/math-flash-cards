@@ -124,6 +124,53 @@
         "(−1) flips between 1 and −1 depending on whether the exponent is even or odd.",
       example: "(−1)<sup>4</sup> = 1   ·   (−1)<sup>5</sup> = −1",
     },
+    // Additional textbook formulas (Chapter 7)
+    {
+      id: "rule_quotient",
+      title: "Quotient of powers",
+      formula: "a<sup>m</sup> / a<sup>n</sup> = a<sup>m−n</sup>",
+      explanation: "Same base, divided? Subtract the exponents.",
+      example: "2<sup>10</sup> / 2<sup>3</sup> = 2<sup>7</sup> = 128",
+    },
+    {
+      id: "rule_product_bases",
+      title: "Power of a product",
+      formula: "(ab)<sup>n</sup> = a<sup>n</sup> · b<sup>n</sup>",
+      explanation: "A power distributes over multiplication.",
+      example: "(2·3)<sup>4</sup> = 2<sup>4</sup>·3<sup>4</sup> = 16·81 = 1296",
+    },
+    {
+      id: "rule_equal_powers",
+      title: "Equal powers",
+      formula: "a<sup>n</sup> = b<sup>n</sup>  ⇒  a = b (n odd)  ·  a = ±b (n even)",
+      explanation:
+        "If two equal powers share the same exponent, the bases are equal — but for even exponents the base could also be the negative.",
+      example: "x<sup>3</sup> = 27 ⇒ x = 3   ·   x<sup>2</sup> = 9 ⇒ x = ±3",
+    },
+    {
+      id: "rule_principal_root",
+      title: "Principal square root",
+      formula: "√a ≥ 0",
+      explanation:
+        "The √ symbol always means the non-negative root. Use ±√ if you want both signs.",
+      example: "√4 = 2 only (not ±2)",
+    },
+    {
+      id: "rule_square_nonneg",
+      title: "A square is never negative",
+      formula: "a<sup>2</sup> ≥ 0",
+      explanation:
+        "Squaring any real number yields a non-negative value, even when the base is negative.",
+      example: "(−4)<sup>2</sup> = 16",
+    },
+    {
+      id: "rule_nth_root",
+      title: "N-th root notation",
+      formula: "<sup>n</sup>√a = a<sup>1/n</sup>",
+      explanation:
+        "Taking the n-th root is the same as raising to the 1/n power.",
+      example: "<sup>3</sup>√8 = 8<sup>1/3</sup> = 2",
+    },
   ];
   for (const r of rules) {
     qs.push({
@@ -333,6 +380,108 @@
     );
   }
 
+  // -------- Practice Set 7.1 (textbook problems with worked solutions) --------
+  function pushPS(id, qHtml, ans, accept, solve) {
+    qs.push({
+      id,
+      topic: "exponents",
+      subtopic: "practice",
+      group: "practice-set-71",
+      q: qHtml,
+      a: ans,
+      accept,
+      solve,
+    });
+  }
+  pushPS(
+    "ps71_1a",
+    "Simplify: 2<sup>10</sup> + 2<sup>11</sup> + 2<sup>12</sup> + 2<sup>13</sup> + 2<sup>14</sup>",
+    "31×2^10",
+    ["31*2^10", "31x2^10", "31·2^10", "31×2¹⁰"],
+    "Take 2<sup>10</sup> common:<br>" +
+      "= 2<sup>10</sup>(1 + 2 + 4 + 8 + 16)<br>" +
+      "= 2<sup>10</sup> · 31<br>" +
+      "= <strong>31 × 2<sup>10</sup></strong>"
+  );
+  pushPS(
+    "ps71_1b",
+    "Simplify: 55<sup>5</sup> / 5<sup>55</sup>",
+    "11^5/5^50",
+    ["11⁵/5⁵⁰"],
+    "55<sup>5</sup> = (5·11)<sup>5</sup> = 5<sup>5</sup>·11<sup>5</sup><br>" +
+      "= 5<sup>5</sup>·11<sup>5</sup> / 5<sup>55</sup><br>" +
+      "= <strong>11<sup>5</sup> / 5<sup>50</sup></strong>"
+  );
+  pushPS(
+    "ps71_1c",
+    "Simplify: (7<sup>10</sup> + 7<sup>11</sup>) / 7",
+    "8×7^9",
+    ["8*7^9", "8x7^9", "8·7^9", "8×7⁹"],
+    "Factor 7<sup>10</sup>:<br>" +
+      "= 7<sup>10</sup>(1 + 7) / 7<br>" +
+      "= 7<sup>10</sup> · 8 / 7<br>" +
+      "= <strong>8 × 7<sup>9</sup></strong>"
+  );
+  pushPS(
+    "ps71_1d",
+    "Simplify: (2<sup>25</sup> − 2<sup>10</sup>) / 2<sup>9</sup>",
+    "2^16-2",
+    ["2¹⁶-2", "2^16 − 2"],
+    "Factor 2<sup>10</sup>:<br>" +
+      "= 2<sup>10</sup>(2<sup>15</sup> − 1) / 2<sup>9</sup><br>" +
+      "= 2(2<sup>15</sup> − 1)<br>" +
+      "= <strong>2<sup>16</sup> − 2</strong>"
+  );
+  pushPS(
+    "ps71_2_max",
+    "Given a<sup>4</sup>=256, b<sup>3</sup>=−27, c<sup>3</sup>=64. What is the greatest value of a + b + c?",
+    "5",
+    [],
+    "a<sup>4</sup> = 256 ⇒ a = ±4<br>" +
+      "b<sup>3</sup> = −27 ⇒ b = −3<br>" +
+      "c<sup>3</sup> = 64 ⇒ c = 4<br>" +
+      "Greatest a + b + c = 4 − 3 + 4 = <strong>5</strong>"
+  );
+  pushPS(
+    "ps71_2_min",
+    "Given a<sup>4</sup>=256, b<sup>3</sup>=−27, c<sup>3</sup>=64. What is the least value of a + b + c?",
+    "-3",
+    ["−3"],
+    "a<sup>4</sup> = 256 ⇒ a = ±4<br>" +
+      "b<sup>3</sup> = −27 ⇒ b = −3<br>" +
+      "c<sup>3</sup> = 64 ⇒ c = 4<br>" +
+      "Least a + b + c = −4 − 3 + 4 = <strong>−3</strong>"
+  );
+  pushPS(
+    "ps71_3a",
+    "Which is greater: 0.5<sup>6</sup> or 0.5<sup>4</sup>?",
+    "0.5^4",
+    ["0.5⁴"],
+    "0.5<sup>6</sup> = 0.5<sup>4</sup> · 0.5<sup>2</sup> = 0.5<sup>4</sup> · 0.25<br>" +
+      "So 0.5<sup>6</sup> = ¼ · 0.5<sup>4</sup>.<br>" +
+      "⇒ <strong>0.5<sup>4</sup></strong> is greater."
+  );
+  pushPS(
+    "ps71_3b",
+    "Which is greater: 9<sup>1/8</sup> or 8<sup>1/9</sup>?",
+    "9^(1/8)",
+    ["9^1/8", "9¹⁄⁸"],
+    "Raise both to the 72-nd power:<br>" +
+      "(9<sup>1/8</sup>)<sup>72</sup> = 9<sup>9</sup><br>" +
+      "(8<sup>1/9</sup>)<sup>72</sup> = 8<sup>8</sup><br>" +
+      "9<sup>9</sup> > 8<sup>8</sup>, so <strong>9<sup>1/8</sup></strong> is greater."
+  );
+  pushPS(
+    "ps71_3c",
+    "Which is greater: √12 + √20 or √16 + √16?",
+    "√16+√16",
+    ["sqrt16+sqrt16", "sqrt(16)+sqrt(16)", "√16 + √16"],
+    "Square both expressions:<br>" +
+      "(√12 + √20)<sup>2</sup> = 12 + 20 + 2√240 = 32 + 2√240<br>" +
+      "(√16 + √16)<sup>2</sup> = 16 + 16 + 2√256 = 32 + 2√256<br>" +
+      "Since 256 > 240, <strong>√16 + √16</strong> is greater."
+  );
+
   // -------- Apply-the-rules quiz questions --------
   // All have positive integer answers so the numeric keypad works on mobile.
   function pushRule(id, q, a) {
@@ -410,6 +559,13 @@
       title: "Apply the rules",
       desc: "Practice problems for product, power-of-a-power, negative, zero…",
       filter: (q) => q.group === "rules-quiz",
+    },
+    {
+      id: "practice-set-71",
+      section: "Exponent rules",
+      title: "Practice Set 7.1",
+      desc: "Textbook practice problems — full worked solution shown on misses.",
+      filter: (q) => q.group === "practice-set-71",
     },
     {
       id: "algebra-rules",

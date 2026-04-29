@@ -549,4 +549,13 @@ button:active { transform: translateY(1px); }
   .rule-formula,
   .rule-explanation,
   .rule-example { text-align: center; }
+  /* Solve walkthroughs and feedback also center on mobile. */
+  .feedback,
+  .feedback .feedback-line,
+  .feedback .solve-steps,
+  .feedback .solve-hint { text-align: center; }
+  /* Ensure long answer inputs don't overflow the cards. */
+  #answer-form { flex-wrap: wrap; }
+  #answer-form input { min-width: 0; }
+  #answer-form button { width: 100%; margin-top: 6px; }
 }
