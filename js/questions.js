@@ -482,6 +482,307 @@
       "Since 256 > 240, <strong>√16 + √16</strong> is greater."
   );
 
+  // -------- Chapter 1: Equations (Learn rules) --------
+  const equationRules = [
+    {
+      id: "eq_one_unknown",
+      title: "Equation in one unknown",
+      formula: "Assign · Form · Isolate",
+      explanation:
+        "Three-step method: name the unknown, write an equation from the wording, then isolate the variable on one side.",
+      example:
+        "10 yrs later, Peter's age = 2 × present.<br>Let p = present. p + 10 = 2p ⇒ p = 10",
+    },
+    {
+      id: "eq_two_unknowns",
+      title: "Two unknowns — elimination",
+      formula: "Form 2 eqs · Align coefficients · Subtract to eliminate",
+      explanation:
+        "Build two equations, multiply one to match a coefficient, then subtract to eliminate that variable.",
+      example:
+        "Pens $5, pencils $4. 10 items, $44.<br>x + y = 10  ·  5x + 4y = 44<br>×4 first: 4x+4y=40 ⇒ subtract: x = 4",
+    },
+    {
+      id: "eq_smarter_way",
+      title: "Smarter way — one unknown",
+      formula: "Express the second quantity as (total − first)",
+      explanation:
+        "Two quantities summing to a known total can be parametrized with one variable: x and (total − x). One equation instead of two.",
+      example:
+        "Pens = x, pencils = 10 − x.<br>5x + 4(10 − x) = 44 ⇒ x = 4",
+    },
+    {
+      id: "eq_special",
+      title: "Special equations (fewer eqs than unknowns)",
+      formula: "Find a hidden divisibility or ratio constraint",
+      explanation:
+        "If you can't solve directly, look for an integer or ratio condition the answer must satisfy.",
+      example:
+        "Adam = ⅓ more than Peter. Total = 4x/3 + x = 7x/3 ⇒ total must be a multiple of 7.",
+    },
+    {
+      id: "eq_quadratic_factor",
+      title: "Quadratic by factoring",
+      formula: "ax² + bx + c = 0 · split bx so the two parts multiply to ac",
+      explanation:
+        "Write in descending powers. Split the middle term so the two pieces' product equals a·c, then factor in pairs.",
+      example:
+        "x² + 5x + 6 = 0 ⇒ x² + 2x + 3x + 6 = 0<br>⇒ x(x+2) + 3(x+2) = 0 ⇒ (x+2)(x+3) = 0<br>⇒ x = −2 or −3",
+    },
+    {
+      id: "eq_quadratic_formula",
+      title: "Quadratic formula",
+      formula: "x = [ −b ± √(b² − 4ac) ] / 2a",
+      explanation:
+        "Solves any ax² + bx + c = 0. Mind the signs when plugging in a, b, c.",
+      example:
+        "x² + 5x + 6 = 0: a=1, b=5, c=6.<br>x = [−5 ± √(25 − 24)] / 2 = (−5 ± 1) / 2<br>⇒ x = −2 or −3",
+    },
+    {
+      id: "eq_discriminant",
+      title: "Discriminant",
+      formula: "Δ = b² − 4ac  ·  Δ < 0 ⇒ no real roots",
+      explanation:
+        "Sign of the discriminant tells you how many real solutions exist. Negative discriminant = no real x on the number line.",
+      example: "x² + 2x + 5 = 0:  Δ = 4 − 20 = −16 < 0 ⇒ no real roots",
+    },
+    {
+      id: "eq_sqrt",
+      title: "Equations with square root",
+      formula: "Isolate the √ · Square both sides · Verify back-substituted",
+      explanation:
+        "Squaring can introduce extraneous roots. After solving, plug each candidate back into the original equation — both the inside and the result of √ must be non-negative.",
+      example: "√(t − 2) = 4 ⇒ t − 2 = 16 ⇒ t = 18 ✓",
+    },
+  ];
+  for (const r of equationRules) {
+    qs.push({
+      id: r.id,
+      topic: "equations",
+      subtopic: "rule",
+      group: "equation-rules",
+      learnOnly: true,
+      q: r.title,
+      a: r.formula,
+      explanation: r.explanation,
+      example: r.example,
+    });
+  }
+
+  // -------- Practice Set 1.1 — Equations in one unknown --------
+  function pushEqQ(group, id, qHtml, ans, accept, solve) {
+    qs.push({
+      id,
+      topic: "equations",
+      subtopic: "practice",
+      group,
+      q: qHtml,
+      a: ans,
+      accept,
+      solve,
+    });
+  }
+  pushEqQ(
+    "ps-1-1",
+    "ps11_1",
+    "Solve for x:  7x + 23 = 2(x + 4)",
+    "-3",
+    ["−3"],
+    "7x + 23 = 2x + 8<br>⇒ 5x = −15<br>⇒ <strong>x = −3</strong>"
+  );
+  pushEqQ(
+    "ps-1-1",
+    "ps11_2",
+    "Solve for x:  2(5x − 2) = 3[ 2(x + 1) + 14 ]",
+    "13",
+    [],
+    "10x − 4 = 3[2x + 16] = 6x + 48<br>⇒ 4x = 52<br>⇒ <strong>x = 13</strong>"
+  );
+  pushEqQ(
+    "ps-1-1",
+    "ps11_3",
+    "15 years from now, Harry's age will be three times his age 5 years ago. Harry's present age (in years)?",
+    "15",
+    [],
+    "Let h = present age.<br>h + 15 = 3(h − 5)<br>⇒ h + 15 = 3h − 15<br>⇒ 2h = 30<br>⇒ <strong>h = 15</strong>"
+  );
+  pushEqQ(
+    "ps-1-1",
+    "ps11_4",
+    "Adam had $17.10. He bought 3 apples at $1.50, 2 mangoes at $1.35, and spent the rest on 9 guavas. What is the cost of 2 apples and 1 guava (in dollars)?",
+    "4.10",
+    ["4.1", "$4.10", "$4.1"],
+    "Apples: 3 × 1.50 = 4.50<br>Mangoes: 2 × 1.35 = 2.70<br>9g = 17.10 − 4.50 − 2.70 = 9.90 ⇒ g = 1.10<br>2 apples + 1 guava = 2(1.50) + 1.10 = <strong>$4.10</strong>"
+  );
+  pushEqQ(
+    "ps-1-1",
+    "ps11_5",
+    "A tank is initially ⅜ full. After 3 gallons are added it is half full. Capacity (in gallons)?",
+    "24",
+    [],
+    "Let capacity = x.<br>(3/8)x + 3 = (1/2)x<br>⇒ (1/2 − 3/8)x = 3<br>⇒ (1/8)x = 3<br>⇒ <strong>x = 24</strong>"
+  );
+  pushEqQ(
+    "ps-1-1",
+    "ps11_6",
+    "Betty's Jan–June income was $15,000 more than her July–Sep income (same year). She earns the same every month. What is her annual income (in dollars)?",
+    "60000",
+    ["$60000", "60,000", "$60,000"],
+    "Let monthly = x.<br>6x = 3x + 15000<br>⇒ 3x = 15000 ⇒ x = 5000<br>Annual = 12 × 5000 = <strong>$60,000</strong>"
+  );
+
+  // -------- Practice Set 1.2 — Equations in two unknowns --------
+  pushEqQ(
+    "ps-1-2",
+    "ps12_1",
+    "A store sells textbooks at $5 and notebooks at $4. Barrett buys 7 books for $31. How many textbooks?",
+    "3",
+    [],
+    "Let textbooks = x, notebooks = 7 − x.<br>5x + 4(7 − x) = 31<br>⇒ x + 28 = 31<br>⇒ <strong>x = 3</strong>"
+  );
+  pushEqQ(
+    "ps-1-2",
+    "ps12_2",
+    "Peter is 10 years older than Adam. Five years ago Peter was twice Adam's age. Peter's age now?",
+    "25",
+    [],
+    "Let Adam = x. Then Peter = x + 10.<br>5 yrs ago: x + 5 = 2(x − 5) ⇒ x = 15<br>Peter = 15 + 10 = <strong>25</strong>"
+  );
+  pushEqQ(
+    "ps-1-2",
+    "ps12_3",
+    "Peter and John together weigh 75 lbs. Peter weighs 15 lbs less than twice John's weight. Peter's weight (lbs)?",
+    "45",
+    [],
+    "Let John = J. Peter = 2J − 15.<br>P + J = 75 ⇒ (2J − 15) + J = 75<br>⇒ 3J = 90 ⇒ J = 30<br>Peter = <strong>45</strong>"
+  );
+  pushEqQ(
+    "ps-1-2",
+    "ps12_4",
+    "Nick spends $200 on 125 sandwiches: singles ($1) and doubles ($2). How many doubles?",
+    "75",
+    [],
+    "Let doubles = x, singles = 125 − x.<br>2x + (125 − x) = 200<br>⇒ x + 125 = 200<br>⇒ <strong>x = 75</strong>"
+  );
+  pushEqQ(
+    "ps-1-2",
+    "ps12_5",
+    "Victoria has 50 chocolates split into 5-piece and 10-piece packs. She has 4 more 5-piece packs than 10-piece. How many 10-piece packs?",
+    "2",
+    [],
+    "Let 10-piece = x, 5-piece = x + 4.<br>10x + 5(x + 4) = 50<br>⇒ 15x + 20 = 50 ⇒ <strong>x = 2</strong>"
+  );
+  pushEqQ(
+    "ps-1-2",
+    "ps12_6",
+    "Ronan cuts a 50-inch rope so the longer piece is 5 inches more than the shorter. Length of the longer piece (inches)?",
+    "27.5",
+    [],
+    "Let shorter = x, longer = x + 5.<br>x + (x + 5) = 50 ⇒ x = 22.5<br>Longer = <strong>27.5″</strong>"
+  );
+  pushEqQ(
+    "ps-1-2",
+    "ps12_7",
+    "Smith has equal numbers of nickels and quarters totaling $9. Total number of coins?",
+    "60",
+    [],
+    "Let count of each = x.<br>0.05x + 0.25x = 9<br>⇒ 0.30x = 9 ⇒ x = 30<br>Total coins = 2x = <strong>60</strong>"
+  );
+
+  // -------- Practice Set 1.3 — Special equations --------
+  pushEqQ(
+    "ps-1-3",
+    "ps13_1",
+    "If a + b = 15, b + c = 10, and a + c = 10, what is a + b + c?",
+    "17.5",
+    [],
+    "Add the three equations:<br>2(a + b + c) = 15 + 10 + 10 = 35<br>⇒ <strong>a + b + c = 17.5</strong>"
+  );
+  pushEqQ(
+    "ps-1-3",
+    "ps13_2",
+    "If x + y = 5y, find (x + 3y) / y.",
+    "7",
+    [],
+    "x + y = 5y ⇒ x = 4y<br>(x + 3y)/y = (4y + 3y)/y = 7y/y = <strong>7</strong>"
+  );
+  pushEqQ(
+    "ps-1-3",
+    "ps13_3",
+    "Andy has half as many books as Bill, who has one third as many books as Charlie. Of {30, 60, 90, 120, 150}, which can be the total they have together?",
+    "90",
+    [],
+    "Let Andy = a. Bill = 2a. Charlie = 3·Bill = 6a.<br>Total = a + 2a + 6a = 9a ⇒ multiple of 9<br>Only <strong>90</strong> in the set is divisible by 9."
+  );
+
+  // -------- Practice Set 1.4 — Quadratic equations (single-answer subset) --------
+  pushEqQ(
+    "ps-1-4",
+    "ps14_2",
+    "If x = 4 is a root of x² + kx − 8 = 0, find k.",
+    "-2",
+    ["−2"],
+    "Substitute x = 4:<br>16 + 4k − 8 = 0<br>⇒ 4k = −8 ⇒ <strong>k = −2</strong>"
+  );
+  pushEqQ(
+    "ps-1-4",
+    "ps14_3",
+    "Which equation has 4 and 2 as its roots? Type the constant term (x² + bx + c = 0).",
+    "8",
+    [],
+    "(x − 4)(x − 2) = 0 ⇒ x² − 6x + 8 = 0<br>Constant term <strong>c = 8</strong>"
+  );
+  pushEqQ(
+    "ps-1-4",
+    "ps14_4",
+    "If x² + a = b and x is an integer, what could be the value of b − a? (3, 4, 5, 6, 7)",
+    "4",
+    [],
+    "b − a = x² for integer x.<br>Of the choices, only <strong>4</strong> is a perfect square (= 2²)."
+  );
+
+  // -------- Practice Set 1.5 — Equations with square root --------
+  pushEqQ(
+    "ps-1-5",
+    "ps15_1a",
+    "Solve for x:  √(x − 8) = 6",
+    "44",
+    [],
+    "Square both sides:<br>x − 8 = 36 ⇒ <strong>x = 44</strong>"
+  );
+  pushEqQ(
+    "ps-1-5",
+    "ps15_1b",
+    "Solve for x (positive root only):  √(x² + 21) = 5",
+    "2",
+    [],
+    "Square both sides: x² + 21 = 25<br>⇒ x² = 4 ⇒ x = ±2<br>Positive root: <strong>x = 2</strong>"
+  );
+  pushEqQ(
+    "ps-1-5",
+    "ps15_1c",
+    "Solve for x:  √x = 2 / √(x − 3)",
+    "4",
+    [],
+    "Cross-multiply: √(x(x−3)) = 2<br>Square: x² − 3x = 4 ⇒ x² − 3x − 4 = 0<br>(x − 4)(x + 1) = 0 ⇒ x = 4 or −1<br>x = −1 fails the original (negative under √).<br>⇒ <strong>x = 4</strong>"
+  );
+  pushEqQ(
+    "ps-1-5",
+    "ps15_1d",
+    "Solve for x:  √(x² − 2) = √x",
+    "2",
+    [],
+    "Square both sides: x² − 2 = x<br>⇒ x² − x − 2 = 0 ⇒ (x − 2)(x + 1) = 0<br>x = 2 or −1. x = −1 fails original.<br>⇒ <strong>x = 2</strong>"
+  );
+  pushEqQ(
+    "ps-1-5",
+    "ps15_2",
+    "If x = 9 satisfies √x + k·√(x − 8) = 0, find k.",
+    "-3",
+    ["−3"],
+    "Substitute x = 9:<br>√9 + k√1 = 0<br>⇒ 3 + k = 0 ⇒ <strong>k = −3</strong>"
+  );
+
   // -------- Apply-the-rules quiz questions --------
   // All have positive integer answers so the numeric keypad works on mobile.
   function pushRule(id, q, a) {
@@ -590,6 +891,51 @@
       title: "Solve with values",
       desc: "Plug in numbers and compute. Step-by-step walkthrough on misses.",
       filter: (q) => q.group === "identities-solve",
+    },
+    {
+      id: "equation-rules",
+      section: "Equations",
+      title: "The methods",
+      desc: "1-unknown, 2-unknowns, special equations, quadratic, square root.",
+      filter: () => false,
+      learnOnly: true,
+      learnFilter: (q) =>
+        q.subtopic === "rule" && q.group === "equation-rules",
+    },
+    {
+      id: "ps-1-1",
+      section: "Equations",
+      title: "Practice Set 1.1 — One unknown",
+      desc: "Word problems solvable with one variable.",
+      filter: (q) => q.group === "ps-1-1",
+    },
+    {
+      id: "ps-1-2",
+      section: "Equations",
+      title: "Practice Set 1.2 — Two unknowns",
+      desc: "Use elimination or the smarter one-variable shortcut.",
+      filter: (q) => q.group === "ps-1-2",
+    },
+    {
+      id: "ps-1-3",
+      section: "Equations",
+      title: "Practice Set 1.3 — Special equations",
+      desc: "Fewer equations than unknowns — find the constraint.",
+      filter: (q) => q.group === "ps-1-3",
+    },
+    {
+      id: "ps-1-4",
+      section: "Equations",
+      title: "Practice Set 1.4 — Quadratics",
+      desc: "Factoring + quadratic formula.",
+      filter: (q) => q.group === "ps-1-4",
+    },
+    {
+      id: "ps-1-5",
+      section: "Equations",
+      title: "Practice Set 1.5 — Square root equations",
+      desc: "Square both sides, then verify.",
+      filter: (q) => q.group === "ps-1-5",
     },
     {
       id: "mixed",

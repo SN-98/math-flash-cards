@@ -21,7 +21,7 @@ window.Quiz = (function () {
       .replace(/²/g, "^2")                // ² → ^2
       .replace(/³/g, "^3")                // ³ → ^3
       .replace(/⁴/g, "^4")                // ⁴ → ^4
-      .replace(/[*×·⋅()]/g, "")           // strip mul-signs and parens
+      .replace(/[*×·⋅()$,]/g, "")         // strip mul-signs, parens, $, thousands commas
       .replace(/\s+/g, "");
   }
 

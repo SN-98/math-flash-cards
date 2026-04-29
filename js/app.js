@@ -255,7 +255,10 @@
     // anything other than digits/dot/dash, the user needs an alphanumeric
     // keyboard on mobile. Pure-numeric answers stay on the numeric keypad.
     const allAnswers = [q.a, ...(q.accept || [])].join("");
-    const answerNeedsText = /[^0-9.\-,\s]/.test(allAnswers);
+    // Trigger the alphanumeric keyboard whenever the answer needs anything
+    // beyond plain digits / decimal point — including the minus sign,
+    // since iOS's numeric keypad omits it.
+    const answerNeedsText = /[^0-9.\s]/.test(allAnswers);
     $("#answer-input").setAttribute("inputmode", answerNeedsText ? "text" : "numeric");
     $("#answer-input").value = "";
     $("#answer-input").focus();
