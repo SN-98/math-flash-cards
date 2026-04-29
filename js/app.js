@@ -285,7 +285,7 @@
     fb.hidden = false;
     if (correct) {
       fb.className = "feedback good";
-      fb.textContent = `✓ Correct — ${q.a}`;
+      fb.innerHTML = `✓ Correct — ${q.a}`;
       session_correct++;
       card.classList.remove("wrong-anim", "correct-anim");
       void card.offsetWidth;
@@ -294,7 +294,12 @@
       if (navigator.vibrate) navigator.vibrate(40);
     } else {
       fb.className = "feedback bad";
-      fb.textContent = `✗ Not quite — answer is ${q.a}`;
+      let html = `<div class="feedback-line">✗ Not quite — answer is <strong>${q.a}</strong></div>`;
+      if (q.solve) {
+        html += `<div class="solve-steps">${q.solve}</div>`;
+        html += `<div class="solve-hint">Tap Next or → when ready.</div>`;
+      }
+      fb.innerHTML = html;
       session_wrong++;
       wrongInSession.push(q);
       const insertAt = Math.min(deck.length, idx + 3);
@@ -310,7 +315,15 @@
     window.Quiz.recordAttempt(session.username, progressMap, q, correct);
 
     $("#quiz-progress").textContent = `${idx + 1} / ${deck.length}  ·  ✓ ${session_correct}  ✗ ${session_wrong}`;
-    setTimeout(next, 900);
+    // Re-focus the input synchronously while we're still inside the user-
+    // gesture stack (button click / Enter key). On iOS Safari, this is the
+    // only way to keep the keyboard open across the 900ms auto-advance —
+    // a programmatic focus() inside the setTimeout itself is too late.
+    $("#answer-input").focus();
+    // Auto-advance only on a correct answer. On a miss, let the user
+    // sit with the explanation (and step-by-step solve when present)
+    // until they tap Next / → / swipe.
+    if (correct) setTimeout(next, 900);
   }
 
   function finishSession() {

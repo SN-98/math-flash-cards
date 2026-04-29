@@ -139,6 +139,200 @@
     });
   }
 
+  // -------- Algebraic identities (binomial expansions) --------
+  const algebraRules = [
+    {
+      id: "rule_sum_sq",
+      title: "Square of a sum",
+      formula:
+        "(a + b)<sup>2</sup> = a<sup>2</sup> + 2ab + b<sup>2</sup>",
+      explanation: "Square each term and add twice the product.",
+      example: "(3 + 4)<sup>2</sup> = 9 + 24 + 16 = 49",
+    },
+    {
+      id: "rule_diff_sq",
+      title: "Square of a difference",
+      formula:
+        "(a − b)<sup>2</sup> = a<sup>2</sup> − 2ab + b<sup>2</sup>",
+      explanation: "Same shape as the sum, but the middle term is negative.",
+      example: "(5 − 2)<sup>2</sup> = 25 − 20 + 4 = 9",
+    },
+    {
+      id: "rule_diff_squares",
+      title: "Difference of squares",
+      formula:
+        "(a + b)(a − b) = a<sup>2</sup> − b<sup>2</sup>",
+      explanation:
+        "When you multiply (a + b) by (a − b), the cross terms cancel.",
+      example: "(7 + 3)(7 − 3) = 49 − 9 = 40",
+    },
+    {
+      id: "rule_sum_cube",
+      title: "Cube of a sum",
+      formula:
+        "(a + b)<sup>3</sup> = a<sup>3</sup> + 3a<sup>2</sup>b + 3ab<sup>2</sup> + b<sup>3</sup>",
+      explanation:
+        "Coefficients follow Pascal's triangle: 1, 3, 3, 1.",
+      example: "(2 + 1)<sup>3</sup> = 8 + 12 + 6 + 1 = 27",
+    },
+    {
+      id: "rule_diff_cube",
+      title: "Cube of a difference",
+      formula:
+        "(a − b)<sup>3</sup> = a<sup>3</sup> − 3a<sup>2</sup>b + 3ab<sup>2</sup> − b<sup>3</sup>",
+      explanation:
+        "Same expansion as the sum cube; alternate the signs.",
+      example: "(3 − 1)<sup>3</sup> = 27 − 27 + 9 − 1 = 8",
+    },
+  ];
+  for (const r of algebraRules) {
+    qs.push({
+      id: r.id,
+      topic: "algebra",
+      subtopic: "rule",
+      group: "algebra-rules",
+      learnOnly: true,
+      q: r.title,
+      a: r.formula,
+      explanation: r.explanation,
+      example: r.example,
+    });
+  }
+
+  // -------- Identity completion quiz (fill in the missing term) --------
+  function pushIdent(id, qHtml, ans, accept) {
+    qs.push({
+      id,
+      topic: "algebra",
+      subtopic: "identity",
+      group: "identities-fill",
+      q: qHtml,
+      a: ans,
+      accept,
+    });
+  }
+  pushIdent(
+    "iden_sum_sq",
+    "(a + b)<sup>2</sup> = a<sup>2</sup> + ___ + b<sup>2</sup>",
+    "2ab",
+    ["2ba"]
+  );
+  pushIdent(
+    "iden_diff_sq",
+    "(a − b)<sup>2</sup> = a<sup>2</sup> − ___ + b<sup>2</sup>",
+    "2ab",
+    ["2ba"]
+  );
+  pushIdent(
+    "iden_diff_squares",
+    "(a + b)(a − b) = a<sup>2</sup> − ___",
+    "b^2",
+    ["b2"]
+  );
+  pushIdent(
+    "iden_dsq_factor",
+    "a<sup>2</sup> − b<sup>2</sup> = (a + b) · ___",
+    "(a-b)",
+    ["a-b"]
+  );
+  pushIdent(
+    "iden_sum_cube_a",
+    "(a + b)<sup>3</sup> = a<sup>3</sup> + ___ + 3ab<sup>2</sup> + b<sup>3</sup>",
+    "3a^2b",
+    ["3a2b", "3ba^2", "3ba2"]
+  );
+  pushIdent(
+    "iden_sum_cube_b",
+    "(a + b)<sup>3</sup> = a<sup>3</sup> + 3a<sup>2</sup>b + ___ + b<sup>3</sup>",
+    "3ab^2",
+    ["3ab2", "3b^2a", "3b2a"]
+  );
+  pushIdent(
+    "iden_diff_cube_a",
+    "(a − b)<sup>3</sup> = a<sup>3</sup> − ___ + 3ab<sup>2</sup> − b<sup>3</sup>",
+    "3a^2b",
+    ["3a2b", "3ba^2", "3ba2"]
+  );
+  pushIdent(
+    "iden_diff_cube_b",
+    "(a − b)<sup>3</sup> = a<sup>3</sup> − 3a<sup>2</sup>b + ___ − b<sup>3</sup>",
+    "3ab^2",
+    ["3ab2", "3b^2a", "3b2a"]
+  );
+
+  // -------- Solve-with-values quiz (numeric, with step-by-step solve) --------
+  function pushSolve(id, qHtml, ans, solve) {
+    qs.push({
+      id,
+      topic: "algebra",
+      subtopic: "solve",
+      group: "identities-solve",
+      q: qHtml,
+      a: String(ans),
+      solve,
+    });
+  }
+  const dash = "−";
+  const sumSqSolve = (a, b) =>
+    `<strong>(a + b)<sup>2</sup> = a<sup>2</sup> + 2ab + b<sup>2</sup></strong><br>` +
+    `= ${a}<sup>2</sup> + 2·${a}·${b} + ${b}<sup>2</sup><br>` +
+    `= ${a * a} + ${2 * a * b} + ${b * b}<br>` +
+    `= ${(a + b) * (a + b)}`;
+  const diffSqSolve = (a, b) =>
+    `<strong>(a ${dash} b)<sup>2</sup> = a<sup>2</sup> ${dash} 2ab + b<sup>2</sup></strong><br>` +
+    `= ${a}<sup>2</sup> ${dash} 2·${a}·${b} + ${b}<sup>2</sup><br>` +
+    `= ${a * a} ${dash} ${2 * a * b} + ${b * b}<br>` +
+    `= ${(a - b) * (a - b)}`;
+  const dsqSolve = (a, b) =>
+    `<strong>(a + b)(a ${dash} b) = a<sup>2</sup> ${dash} b<sup>2</sup></strong><br>` +
+    `= ${a}<sup>2</sup> ${dash} ${b}<sup>2</sup><br>` +
+    `= ${a * a} ${dash} ${b * b}<br>` +
+    `= ${a * a - b * b}`;
+  const sumCubeSolve = (a, b) =>
+    `<strong>(a + b)<sup>3</sup> = a<sup>3</sup> + 3a<sup>2</sup>b + 3ab<sup>2</sup> + b<sup>3</sup></strong><br>` +
+    `= ${a}<sup>3</sup> + 3·${a}<sup>2</sup>·${b} + 3·${a}·${b}<sup>2</sup> + ${b}<sup>3</sup><br>` +
+    `= ${a ** 3} + ${3 * a * a * b} + ${3 * a * b * b} + ${b ** 3}<br>` +
+    `= ${(a + b) ** 3}`;
+  const diffCubeSolve = (a, b) =>
+    `<strong>(a ${dash} b)<sup>3</sup> = a<sup>3</sup> ${dash} 3a<sup>2</sup>b + 3ab<sup>2</sup> ${dash} b<sup>3</sup></strong><br>` +
+    `= ${a}<sup>3</sup> ${dash} 3·${a}<sup>2</sup>·${b} + 3·${a}·${b}<sup>2</sup> ${dash} ${b}<sup>3</sup><br>` +
+    `= ${a ** 3} ${dash} ${3 * a * a * b} + ${3 * a * b * b} ${dash} ${b ** 3}<br>` +
+    `= ${(a - b) ** 3}`;
+  for (const [a, b] of [[3, 2], [5, 4], [7, 3], [10, 4]]) {
+    pushSolve(
+      `solv_sumsq_${a}_${b}`,
+      `If a = ${a}, b = ${b}, what is (a + b)<sup>2</sup>?`,
+      (a + b) * (a + b),
+      sumSqSolve(a, b)
+    );
+    pushSolve(
+      `solv_diffsq_${a}_${b}`,
+      `If a = ${a}, b = ${b}, what is (a ${dash} b)<sup>2</sup>?`,
+      (a - b) * (a - b),
+      diffSqSolve(a, b)
+    );
+    pushSolve(
+      `solv_dsq_${a}_${b}`,
+      `If a = ${a}, b = ${b}, what is (a + b)(a ${dash} b)?`,
+      a * a - b * b,
+      dsqSolve(a, b)
+    );
+  }
+  for (const [a, b] of [[2, 1], [3, 1], [4, 2]]) {
+    pushSolve(
+      `solv_sumcube_${a}_${b}`,
+      `If a = ${a}, b = ${b}, what is (a + b)<sup>3</sup>?`,
+      (a + b) ** 3,
+      sumCubeSolve(a, b)
+    );
+    pushSolve(
+      `solv_diffcube_${a}_${b}`,
+      `If a = ${a}, b = ${b}, what is (a ${dash} b)<sup>3</sup>?`,
+      (a - b) ** 3,
+      diffCubeSolve(a, b)
+    );
+  }
+
   // -------- Apply-the-rules quiz questions --------
   // All have positive integer answers so the numeric keypad works on mobile.
   function pushRule(id, q, a) {
@@ -216,6 +410,30 @@
       title: "Apply the rules",
       desc: "Practice problems for product, power-of-a-power, negative, zero…",
       filter: (q) => q.group === "rules-quiz",
+    },
+    {
+      id: "algebra-rules",
+      section: "Algebra rules",
+      title: "The rules",
+      desc: "Square of a sum, difference of squares, cubes — with examples.",
+      filter: () => false,
+      learnOnly: true,
+      learnFilter: (q) =>
+        q.subtopic === "rule" && q.group === "algebra-rules",
+    },
+    {
+      id: "identities-fill",
+      section: "Algebra rules",
+      title: "Complete the identity",
+      desc: 'Fill in the missing term — e.g. "(a+b)² = a² + ___ + b²"',
+      filter: (q) => q.group === "identities-fill",
+    },
+    {
+      id: "identities-solve",
+      section: "Algebra rules",
+      title: "Solve with values",
+      desc: "Plug in numbers and compute. Step-by-step walkthrough on misses.",
+      filter: (q) => q.group === "identities-solve",
     },
     {
       id: "mixed",

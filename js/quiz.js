@@ -14,7 +14,15 @@ window.Quiz = (function () {
   }
 
   function normalize(s) {
-    return String(s).trim().toLowerCase().replace(/\s+/g, "");
+    return String(s)
+      .trim()
+      .toLowerCase()
+      .replace(/[−–—]/g, "-")            // normalize Unicode dashes to hyphen
+      .replace(/²/g, "^2")                // ² → ^2
+      .replace(/³/g, "^3")                // ³ → ^3
+      .replace(/⁴/g, "^4")                // ⁴ → ^4
+      .replace(/[*×·⋅()]/g, "")           // strip mul-signs and parens
+      .replace(/\s+/g, "");
   }
 
   function isCorrect(userInput, q) {

@@ -399,6 +399,29 @@ button:active { transform: translateY(1px); }
   color: var(--rust);
   border: 1px solid var(--rust);
 }
+.feedback .feedback-line { margin-bottom: 6px; }
+.feedback .solve-steps {
+  margin-top: 8px;
+  padding-top: 10px;
+  border-top: 1px dashed var(--rust);
+  font-family: "Fraunces", Georgia, serif;
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--ink);
+  line-height: 1.7;
+}
+.feedback .solve-steps strong {
+  color: var(--accent-deep);
+  font-weight: 700;
+}
+.feedback .solve-hint {
+  margin-top: 8px;
+  font-family: "Inter", sans-serif;
+  font-size: 12px;
+  font-weight: 500;
+  font-style: italic;
+  color: var(--muted);
+}
 
 .card-actions {
   display: flex;
@@ -505,4 +528,25 @@ button:active { transform: translateY(1px); }
   h1 { font-size: 26px; }
   h2 { font-size: 22px; }
   .learn-answer { font-size: 36px; }
+
+  /* Center-align all content inside the quiz / learn cards on phones. */
+  .quiz-card,
+  .learn-card {
+    text-align: center;
+  }
+  .quiz-card .question,
+  .learn-card .question {
+    justify-content: center;
+  }
+  .quiz-card .topic-tag,
+  .learn-card .topic-tag {
+    display: inline-block;
+  }
+  /* Keep Prev / Next on opposite ends — that placement is intentional. */
+  .card-actions { justify-content: space-between; }
+  /* But center the answer input + Check button as a pair. */
+  #answer-form { justify-content: center; }
+  .rule-formula,
+  .rule-explanation,
+  .rule-example { text-align: center; }
 }
